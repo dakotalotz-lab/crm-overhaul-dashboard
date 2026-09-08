@@ -440,7 +440,7 @@ font-size:11.5px;padding:4px 9px;border-radius:8px;display:inline-block;cursor:d
 <header class="mast">
 <h1>Divine Stoneworks: Pipedrive Overhaul</h1>
 <p class="mastsub">One page for the whole project: what is done, what is sending, who is engaging, and where every file lives.</p>
-<span class="rev">rev 6 &middot; shared view</span>
+<span class="rev">rev 7 &middot; shared view</span>
 </header>
 <nav class="nav" role="tablist" aria-label="Sections">
 <button class="navbtn" role="tab" id="tab-v-overhaul" aria-controls="v-overhaul" aria-selected="true" data-v="v-overhaul"><span class="cue" style="background:var(--cat-migration)"></span>Overhaul</button>
@@ -463,7 +463,7 @@ font-size:11.5px;padding:4px 9px;border-radius:8px;display:inline-block;cursor:d
         <div class="lab" id="olab">0 of 0 tasks complete</div>
       </div>
     </div>
-    <div class="stamp">Shared view, updated September 8, 2026. Rev 6 rolls the email engine, the engagement call list, the subcontractor program and the project file index into this one page. Status (overdue and due soon) recalculates against today's date every time the page is opened.</div>
+    <div class="stamp">Shared view, updated September 8, 2026. Rev 7 rolls the email engine, the engagement call list, the subcontractor program and the project file index into this one page, and adds the newly designed Requested Quote pipeline. Status (overdue and due soon) recalculates against today's date every time the page is opened.</div>
   </header>
 
   <div class="kpis">
@@ -865,7 +865,7 @@ is in the CRM. What is left is real pricing and the accept flow.</p>
 <section class="view" id="v-files" role="tabpanel" aria-labelledby="tab-v-files">
 <div class="doc">
 <h1>Project Files</h1>
-<p class="sub">Every deliverable in the Pipedrive Overhaul folder, what it is, and where it sits. 52 files across six numbered folders.
+<p class="sub">Every deliverable in the Pipedrive Overhaul folder, what it is, and where it sits. 54 files across seven numbered folders.
 This page is the map; the files themselves live in iCloud under Claude Documents / Pipedrive Overhaul.</p>
 
 <div class="bar" id="filebar">
@@ -873,6 +873,7 @@ This page is the map; the files themselves live in iCloud under Claude Documents
   <button class="fchip" data-fold="" aria-pressed="true">All</button>
   <button class="fchip" data-fold="00" aria-pressed="false">00 Plan</button>
   <button class="fchip" data-fold="01" aria-pressed="false">01 Discovery</button>
+  <button class="fchip" data-fold="02" aria-pressed="false">02 Pipeline</button>
   <button class="fchip" data-fold="03" aria-pressed="false">03 Data + Tags</button>
   <button class="fchip" data-fold="04" aria-pressed="false">04 Automations</button>
   <button class="fchip" data-fold="05" aria-pressed="false">05 Templates</button>
@@ -1211,6 +1212,8 @@ const TASKS = [
   {t:"Consolidate 5 pipelines into 1 core", d:"After decision D1; plus optional cold pipeline", c:"CRM Structure", o:"TBD", due:"2026-08-15", done:false},
   {t:"Retire pipeline 32 (sequence-as-pipeline)", d:"Migrate its deals into the core pipeline; the permit chain now runs as the new Permit Lead Drip, so this is unblocked and waits on the pipeline-consolidation decision", c:"CRM Structure", o:"TBD", due:"2026-08-15", done:false},
   {t:"Rationalize fields", d:"Keep what is used, archive the rest, standardize contact fields", c:"CRM Structure", o:"TBD", due:"2026-08-22", done:false},
+  {t:"Design the Requested Quote pipeline", d:"the shared quote inbox as a catch-all hub feeding the Leads Inbox, three intake labels that route known, unknown and internal requests, assignment to an inside rep with both a notification and a dated task, then 8 stages with rotting days ending at Completed Booked Job, plus 5 required lost reasons", c:"CRM Structure", o:"Claude", due:"2026-09-08", done:true},
+  {t:"Build the Requested Quote pipeline in Pipedrive", d:"Spec is written and waiting on review: lock the 8 stage names, name the holding org and the assigner, then build it. Nothing is in Pipedrive yet", c:"CRM Structure", o:"Leadership", due:"2026-09-18", done:false},
 
   {t:"Fix the stalled permit automations", d:"Found the root cause, a wait-for-condition step that silently killed each run, and replaced it with timed delays; the Aug 7 check confirmed all 32 deals resumed and Email #3 went out", c:"Automation", o:"Claude", due:"2026-08-06", done:true},
   {t:"Rebuild the permit chain as a 4-part Permit Lead Drip", d:"New deal-based drip that replaces the old three automations; emails 1-9 written, later steps staged", c:"Automation", o:"Claude", due:"2026-08-11", done:true},
@@ -1232,7 +1235,8 @@ const TASKS = [
   {t:"Build the email engagement call list", d:"Opens, clicks and replies scored 1/3/5 into a ranked call list with a scanner filter and an add-only ledger, since Pipedrive has no native engagement field", c:"Reporting & Retention", o:"Claude", due:"2026-08-20", done:true},
   {t:"Build the email send calendar", d:"Every scheduled send for the rest of 2026 pulled from the automation history, both catch-up cohorts included", c:"Reporting & Retention", o:"Claude", due:"2026-08-31", done:true},
   {t:"Build the Divine Email Engine view", d:"All 14 running automations in one place: who is enrolled, what sends when, and when each placeholder template comes due", c:"Reporting & Retention", o:"Claude", due:"2026-09-07", done:true},
-  {t:"Combine every view into one page", d:"Overhaul tracker, email engine, call list, subcontractor program and the project file index now live on a single HTML file", c:"Reporting & Retention", o:"Claude", due:"2026-09-07", done:true},
+  {t:"Combine every view into one page", d:"Overhaul tracker, email engine, call list, subcontractor program and the project file index now live on a single HTML file, with the send calendar reading one month at a time", c:"Reporting & Retention", o:"Claude", due:"2026-09-07", done:true},
+  {t:"Publish the shared team view", d:"The full five-tab page is live on the team link, sanitized: contacts appear as numbered records with no names, companies, emails, phones or CRM links, and no dollar figures anywhere", c:"Reporting & Retention", o:"Claude", due:"2026-09-08", done:true},
   {t:"Run the contact-page engagement pass", d:"Reads each person's Pipedrive timeline instead of the 30-day notification feed, which is the only route to reply counts and full history; method proven on 3 of 254, blocked whenever the Pipedrive session logs out", c:"Reporting & Retention", o:"Claude", due:"2026-09-18", done:false},
   {t:"Put the engagement scan on a schedule", d:"Three runs a day so clicks are captured before the 30-day feed drops them; needs the Mac awake with the desktop app and Chrome running", c:"Reporting & Retention", o:"Leadership", due:"2026-09-18", done:false},
   {t:"Launch win-back nurture to one-time buyers", d:"85% of customers never bought twice: highest-ROI campaign", c:"Reporting & Retention", o:"TBD", due:"2026-09-12", done:false},
@@ -1349,6 +1353,7 @@ const FILES=[
 ["01","Accounts_Report_B_Combined.xlsx","Same ranking with that family combined into one line, which is how concentration was measured","2026-07-10",24950],
 ["01","Automation_Sequence_Inventory.md","What was actually running: 3 live automations, reply-stop off on all 6 sequences","2026-07-16",6631],
 ["01","Automation_Sequence_Inventory.pdf","The inventory, formatted","2026-07-16",7104],
+["02","Requested_Quote_Pipeline_Spec.pdf","The new Requested Quote pipeline end to end: how quote requests arrive, how they get assigned, the 8 stages with rotting days, and the 5 lost reasons. Spec for review, nothing built yet","2026-09-08",9995],
 ["03","Contact_Cleanup_Master_List.xlsx","First pass at the 2,156 accounts needing cleanup, segmented alphabetically","2026-07-10",239789],
 ["03","Contact_Cleanup_Master_List_v2.xlsx","The working version: adds the delete-versus-enrich triage the segments run from","2026-07-15",630777],
 ["03","Pipedrive_Import_Organizations.csv","Import-ready organizations keyed to existing Pipedrive IDs","2026-07-15",241619],
@@ -1388,9 +1393,10 @@ const FILES=[
 ["06","Pipedrive_Overhaul_Dashboard_SHARE.html","The earlier sanitized copy of the tracker alone, before this page replaced it","2026-08-16",21986],
 ["06","engagement_ledger.json","The add-only engagement ledger. Every scan merges into this, nobody is ever dropped","2026-08-18",49331],
 ["06","Email_Automation_Dashboard_Spec.pdf","The spec the email engine view was built from","2026-08-07",5733],
-["06","Divine_Command_Center.html","Live HTML. This page: every view above rolled into one file. The shared version removes contact details","2026-09-07",0]
+["06","Divine_Command_Center.html","Live HTML. This page: every view above rolled into one file. The shared version removes contact details","2026-09-08",0],
+["06","public_share/index.html","The sanitized copy of this page behind the team link: same five tabs, contact details and dollar figures removed","2026-09-08",484964]
 ];
-const FOLDNAME={"00":"00 Project Mgmt","01":"01 Discovery","03":"03 Data + Tags","04":"04 Automations","05":"05 Templates","06":"06 Reporting"};
+const FOLDNAME={"00":"00 Project Mgmt","01":"01 Discovery","02":"02 Pipeline Design","03":"03 Data + Tags","04":"04 Automations","05":"05 Templates","06":"06 Reporting"};
 (function(){
   const root=document.getElementById('v-files');
   let fold='',q='';
