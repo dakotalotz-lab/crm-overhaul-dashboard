@@ -7,17 +7,19 @@
 --line:#e1e0d9;--ring:rgba(11,11,11,0.10);--wash:#f0efec;--accent:#2a78d6;
 --A:#199a5e;--P:#2563eb;--K:#7c3aed;--B:#d97706;--X:#898781;
 --Abg:#e4f3ea;--Pbg:#e3edfc;--Kbg:#eee8fb;--Bbg:#f8ecd8;--Xbg:#eeeeec;
---hot:#c23a3a;--warm:#c07022;--ok:#1c7c4d;--navh:57px;
+--hot:#c23a3a;--warm:#c07022;--ok:#1c7c4d;--navh:57px;--navpill:rgba(11,11,11,0.20);
 --cat-discovery:#44546A;--cat-cleanup:#2E8B9E;--cat-contact:#2E5496;--cat-decision:#BF8F00;
 --cat-structure:#7030A0;--cat-automation:#548235;--cat-subs:#0891B2;--cat-reporting:#C55A11;--cat-migration:#1F3864}
 @media (prefers-color-scheme:dark){:root:where(:not([data-theme=light])){color-scheme:dark;--bg:#0d0d0d;
 --surface:#1a1a19;--ink:#f4f4f0;--ink2:#c3c2b7;--muted:#898781;--line:#2c2c2a;--ring:rgba(255,255,255,0.12);
 --wash:#232321;--accent:#3987e5;--A:#2fbf7c;--P:#5b8ff0;--K:#a685f2;--B:#e79b33;
---Abg:#12291d;--Pbg:#14203a;--Kbg:#241d38;--Bbg:#2e2312;--Xbg:#222220;--hot:#e05b5b;--warm:#e0954a;--ok:#3aa970}}
+--Abg:#12291d;--Pbg:#14203a;--Kbg:#241d38;--Bbg:#2e2312;--Xbg:#222220;--hot:#e05b5b;--warm:#e0954a;--ok:#3aa970;
+--navpill:rgba(255,255,255,0.42)}}
 :root[data-theme=dark]{color-scheme:dark;--bg:#0d0d0d;
 --surface:#1a1a19;--ink:#f4f4f0;--ink2:#c3c2b7;--muted:#898781;--line:#2c2c2a;--ring:rgba(255,255,255,0.12);
 --wash:#232321;--accent:#3987e5;--A:#2fbf7c;--P:#5b8ff0;--K:#a685f2;--B:#e79b33;
---Abg:#12291d;--Pbg:#14203a;--Kbg:#241d38;--Bbg:#2e2312;--Xbg:#222220;--hot:#e05b5b;--warm:#e0954a;--ok:#3aa970}
+--Abg:#12291d;--Pbg:#14203a;--Kbg:#241d38;--Bbg:#2e2312;--Xbg:#222220;--hot:#e05b5b;--warm:#e0954a;--ok:#3aa970;
+--navpill:rgba(255,255,255,0.42)}
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
@@ -33,13 +35,24 @@ padding:3px 10px;white-space:nowrap;font-variant-numeric:tabular-nums}
 
 .nav{position:sticky;top:0;z-index:60;display:flex;gap:4px;flex-wrap:wrap;align-items:center;
 background:var(--bg);border-bottom:1px solid var(--line);padding:9px 0;margin-bottom:20px}
-.navbtn{font:inherit;font-size:13.5px;font-weight:600;color:var(--ink2);background:none;
-border:1px solid transparent;border-radius:9px;padding:7px 13px;cursor:pointer;display:flex;align-items:center;gap:7px}
-.navbtn:hover{background:var(--wash);color:var(--ink)}
-.navbtn[aria-selected=true]{color:var(--ink);background:var(--surface);border-color:var(--ring);
-box-shadow:0 1px 2px rgba(0,0,0,.05)}
+/* every tab is a visible pill, so it reads as something to click even before
+   you hover it; the selected one fills in so the active view is unmistakable */
+.navbtn{font:inherit;font-size:13.5px;font-weight:600;color:var(--ink2);background:var(--surface);
+border:1px solid var(--navpill);border-radius:999px;padding:7px 14px;cursor:pointer;
+display:flex;align-items:center;gap:7px;box-shadow:0 1px 2px rgba(0,0,0,.04);
+transition:background .12s ease,border-color .12s ease,color .12s ease,transform .12s ease}
+.navbtn:hover{background:var(--wash);color:var(--ink);border-color:var(--accent);transform:translateY(-1px)}
+.navbtn[aria-selected=true]{color:var(--bg);background:var(--ink);border-color:var(--ink);
+box-shadow:0 2px 6px rgba(0,0,0,.14);transform:none}
+.navbtn[aria-selected=true]:hover{background:var(--ink);color:var(--bg)}
 .navbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.navbtn .cue{width:7px;height:7px;border-radius:50%;flex:none}
+.navbtn .cue{width:7px;height:7px;border-radius:50%;flex:none;box-shadow:0 0 0 1.5px rgba(255,255,255,.55)}
+.navhint{margin-left:auto;font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;
+white-space:nowrap;padding-right:2px}
+.navhint .arrows{letter-spacing:-1px;color:var(--accent);font-weight:700}
+/* on narrow screens the hint drops to its own line under the pills rather than
+   disappearing, since that is where it is needed most */
+@media(max-width:900px){.navhint{margin-left:0;width:100%;padding-top:3px;font-size:11px}}
 .view{display:none}
 .view.on{display:block}
 .shell footer.legal{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);
@@ -435,6 +448,7 @@ font-size:11.5px;padding:4px 9px;border-radius:8px;display:inline-block;cursor:d
 <button class="navbtn" role="tab" id="tab-v-calls" aria-controls="v-calls" aria-selected="false" data-v="v-calls"><span class="cue" style="background:var(--hot)"></span>Call List</button>
 <button class="navbtn" role="tab" id="tab-v-subs" aria-controls="v-subs" aria-selected="false" data-v="v-subs"><span class="cue" style="background:var(--cat-subs)"></span>Subcontractors</button>
 <button class="navbtn" role="tab" id="tab-v-files" aria-controls="v-files" aria-selected="false" data-v="v-files"><span class="cue" style="background:var(--muted)"></span>Project Files</button>
+<span class="navhint"><span class="arrows">&larr;&rarr;</span> Five views, click any tab to switch</span>
 </nav>
 <main>
 <section class="view on" id="v-overhaul" role="tabpanel" aria-labelledby="tab-v-overhaul">
